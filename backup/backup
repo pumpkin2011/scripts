@@ -1,0 +1,22 @@
+#!/usr/bin/python
+import os
+import shutil
+import time
+
+folders = os.listdir("/backup")
+if len(folders) > 30:
+    folders.sort(key = int)
+    shutil.rmtree("/backup/" + folders[0])
+
+timestamp = str(int(time.time()))
+lamb = lambda name, path, target: (os.system("cd " + path + " && /usr/bin/tar -zcf /backup/" + timestamp + '/'  + target + " " + name))
+
+os.system("/usr/bin/mkdir -p " + "/backup/" + timestamp)
+
+path = "/bitcoin/testnet3/"
+name = "wallet.dat"
+lamb(name, path, "btc.tar.gz")
+
+path = "/ethereums2/"
+name = "keystore"
+lamb(name, path, "eth.tar.gz")
